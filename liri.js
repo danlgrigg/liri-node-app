@@ -25,10 +25,9 @@ function liri(command, userinput) {
       axios
       .get(URL)
       .then(function(response) {
-          //TODO: rew
-          console.log(response.data.venue.name);
-          console.log(response.data.venue.city);
-          console.log(response.data.datetime.moment().format());
+          console.log("Venue: " + response.data[1].venue.name);
+          console.log("City: " + response.data[1].venue.city);
+          console.log("Date: " + moment(response.data[1].datetime).format("MM/DD/YYYY"));
           console.log("-------------------------------------------------")
           
       })
@@ -70,6 +69,9 @@ function liri(command, userinput) {
   }
   //this function will pull the data points when a song is typed
   else if (command === "spotify-this-song") {
+    if (userinput === "") {
+        userinput = "The Sign";
+      }
     //search function creates array of response items
     spotify.search({ type: "track", query: userinput }, function(err, data) {
       //console log error

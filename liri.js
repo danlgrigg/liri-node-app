@@ -6,14 +6,13 @@ var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 var axios = require("axios");
 var moment = require("moment");
-// moment().format()
 
-//create variables fo
+
+//create variables to store user input
 var command = process.argv[2];
 var userinput = process.argv.slice(3).join(" ");
 
 liri(command, userinput);
-
 //main liri function will accept user input and direct through if statements which api call runs
 function liri(command, userinput) {
   //this function will retrieve concert data points for music artist typed in
@@ -22,12 +21,16 @@ function liri(command, userinput) {
       "https://rest.bandsintown.com/artists/" +
       userinput +
       "/events?app_id=codingbootcamp";
-    console.log(URL);
-    axios
+
+      axios
       .get(URL)
       .then(function(response) {
-        console.log(response.data);
-        // axios moment
+          //TODO: rew
+          console.log(response.data.venue.name);
+          console.log(response.data.venue.city);
+          console.log(response.data.datetime.moment().format());
+          console.log("-------------------------------------------------")
+          
       })
       //catch error function and log to the console
       .catch(function(err) {
@@ -48,10 +51,19 @@ function liri(command, userinput) {
           userinput +
           "&y=&plot=short&apikey=trilogy"
       )
+      //retrieve each data point and log to console
       .then(function(response) {
-        //retrieve each data point and log to console
-        console.log(response.data);
+        console.log("Title: " + response.data.Title);
+        console.log("Year: " + response.data.Year);
+        console.log("IMDB Rating: " +response.data.imdbRating);
+        console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
+        console.log("Country: " + response.data.Country);
+        console.log("Language: " + response.data.Language);
+        console.log("Plot: " + response.data.Plot);
+        console.log("Actors: " + response.data.Actors);
+        
       })
+      //catch and log any error to console
       .catch(function(err) {
         console.log(err);
       });
@@ -65,15 +77,17 @@ function liri(command, userinput) {
         return console.log("Error occurred: " + err);
       }
 
-      // console.log(data);
-      //loop through the response items and console log data points
+      //loop through the response items and console log data points for each
       for (let i = 0; i < data.tracks.items.length; i++) {
-        console.log(data.tracks.items[i].album.artists[0].name);
-        console.log(data.tracks.items[i].album.name);
-        console.log(
-          data.tracks.items[i].album.artists[0].external_urls.spotify
-        );
-        console.log(data.tracks.items[i].album.name); //research song title
+          var songData = data.tracks.items;
+        //   console.log(songData)
+        //TODO: fix bug; looping over same song 20 times
+            console.log("Artist: " + songData[0].artists[0].name);
+            console.log("Song: " + songData[0].name);
+            console.log("Preview Link: " + songData[3].preview_url);
+            console.log("Album: " + songData[0].album.name);
+            console.log("-------------------------------------------------")
+   
       }
     });
   }
@@ -91,16 +105,3 @@ function liri(command, userinput) {
     });
   }
 }
-//   5 functions running
-
-//1. function for router
-//  if user input == spotify, then run spotify function
-//  if user input == omdb, run omdb
-//  process.argv === userinput`
-//
-
-//2. spotify function
-//3. movie this function
-//4. concert this function
-//5. do what it says function
-//   string manipulate

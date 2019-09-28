@@ -83,7 +83,6 @@ function liri(command, userinput) {
       for (let i = 0; i < data.tracks.items.length; i++) {
         var songData = data.tracks.items;
  
-        
         console.log("Artist: " + songData[i].artists[0].name);
         console.log("Song: " + songData[i].name);
         console.log("Preview Link: " + songData[i].preview_url);
